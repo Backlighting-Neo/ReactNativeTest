@@ -29,7 +29,7 @@ var StoreIndex = React.createClass({
     listView: {
       paddingTop: 0,
       backgroundColor: '#efeff4',
-      height: config.screen.viewportHeight
+      height: config.screen.viewportHeight - 110
     },
     storeTitle: {
       textAlign: 'center',
