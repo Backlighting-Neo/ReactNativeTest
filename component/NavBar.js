@@ -3,7 +3,8 @@
 import React, {
   Component,
   Text,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 import commonStyles from '../styles/common';
 import config from '../config/config.js';
@@ -13,16 +14,17 @@ const api = config.api;
 var NavBarItem = React.createClass({
   styles: {
     navItem: {
-      fontSize: 15,
+      fontSize: 13,
       textAlign: 'center',
-      margin: 10
+      margin: 10,
+      width: config.screen.size(100)
     },
     navItemActive: {
       color: '#FF3657'
     }
   },
   changeTab: function(){
-    this.props.changeTab(this.props.tgid);
+    this.props.changeTab(this.props.tgid, this.props.index);
   },
   render: function() {
     return (
@@ -37,56 +39,31 @@ var NavBarItem = React.createClass({
 
 var Navbar = React.createClass({
   styles: {
-    navBar: {
-      flex: 1,
-      flexDirection: 'row',
-      justifyContent: 'space-around',
-      alignItems: 'flex-start'
-    },
     gap: commonStyles.gap
   },
-  getInitialState: function() {
-    return({
-      navBarItem:[],
-      currentItem:0
-    })
-  },
-  componentDidMount: function(){
-    this.fetchData();
-  },
-  fetchData: function() {
-    fetch(api+'/goods/tags')
-    .then((response) => response.json())
-    .then((json)=>{
-      this.setState({
-        navBarItem: json.data,
-        currentItem: json.data[0].tg_id
-      });
-      this.changeTab(json.data[0].tg_id);
-    })
-  },
-  changeTab: function(tgid) {
-    this.setState({
-      currentItem: tgid
-    });
-    this.props.actionChangeCurrentTab(tgid);
+  changeTab: function(tgid, index) {
+    this.props.actionChangeCurrentTab(tgid, index);
   },
   render: function() {
     return (
-      <View style={[this.styles.navBar, this.styles.gap]}>
+      <ScrollView
+        horizontal={true}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
       {
-        this.state.navBarItem.map((item, index)=>{
+        this.props.navBarItem.map((item, index)=>{
           return(
             <NavBarItem 
               key={index}
+              index={index}
               tgid={item.tg_id}
               tg_name={item.tg_name}
-              currentTab={this.state.currentItem}
+              currentTab={this.props.currentTab}
               changeTab={this.changeTab}/>
           )
         })
       }
-      </View>
+      </ScrollView>
     );
   }
 });

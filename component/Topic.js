@@ -91,7 +91,9 @@ var ItemTopic = React.createClass({
     return (
       <View style={this.styles.topicView}>
       	<Image style={this.styles.topicImage} source={{uri: this.props.data[0].t_image}} />
-      	<ScrollView horizontal={true}>
+      	<ScrollView horizontal={true}
+	      	showsVerticalScrollIndicator={false}
+	      	showsHorizontalScrollIndicator={false}>
       	{
       		this.props.data[0].goods.map((element, index)=>{
       			return (<TopicGoods data={element} key={index} />)

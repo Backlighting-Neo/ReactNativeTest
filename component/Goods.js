@@ -4,7 +4,8 @@ import React, {
   Component,
   Text,
   View,
-  Image
+  Image,
+  TouchableWithoutFeedback 
 } from 'react-native';
 import commonStyles from '../styles/common';
 import config from '../config/config.js';
@@ -29,6 +30,9 @@ var ItemGoods = React.createClass({
 			fontSize: config.screen.size(21),
 			color: '#808080'
 		},
+		goodsNameView: {
+			height: config.screen.size(50)
+		},
 		goodsInfo: {
 			padding: config.screen.size(20)
 		},
@@ -52,10 +56,14 @@ var ItemGoods = React.createClass({
   render: function() {
     return (
       <View style={this.styles.goodsCard}>
-      	<Image style={this.styles.goodsImage} source={{uri:this.props.data.g_image}} />
+      	<TouchableWithoutFeedback onPress={this.props.goToGoodsDetail.bind(this)}>
+	      	<Image style={this.styles.goodsImage} source={{uri:this.props.data.g_image}} />
+      	</TouchableWithoutFeedback>
       	<View style={this.styles.goodsInfo}>
 	      	<Text style={this.styles.goodsTitle} numberOfLines={1}>{this.props.data.g_title}</Text>
-	      	<Text style={this.styles.goodsName} numberOfLines={2}>{this.props.data.g_name}</Text>
+	      	<View style={this.styles.goodsNameView}>
+		      	<Text style={this.styles.goodsName} numberOfLines={2}>{this.props.data.g_name}</Text>
+	      	</View>
 	      	<View style={this.styles.goodsPriceView}>
 	      		<Text style={this.styles.goodsPriceShop}>¥  {this.props.data.g_price_shop} 元</Text>
 	      		<Text style={this.styles.goodsPricePromotion}> {this.props.data.g_price_market} 元</Text>
@@ -78,14 +86,14 @@ var DoubleItemGoods = React.createClass({
 		if(this.props.data.length == 2) {
 			return (
 				<View style={this.styles.doubleView}>
-					<ItemGoods data={this.props.data[0]}/>
-					<ItemGoods data={this.props.data[1]}/>
+					<ItemGoods data={this.props.data[0]} goToGoodsDetail={this.props.goToGoodsDetail}/>
+					<ItemGoods data={this.props.data[1]} goToGoodsDetail={this.props.goToGoodsDetail}/>
 				</View>
 			);
 		}
 		else {
 			return (
-				<ItemGoods data={this.props.data[0]}/>
+				<ItemGoods data={this.props.data[0]} goToGoodsDetail={this.props.goToGoodsDetail}/>
 			);
 		}
 		
